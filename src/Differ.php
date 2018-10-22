@@ -2,38 +2,68 @@
 namespace Goldcrest\Diff;
 
 use Goldcrest\Diff\Algorithm\AlgorithmInterface;
-use Goldcrest\Diff\Algorithm\Myers;
 
 class Differ
 {
+    /** @var AlgorithmInterface */
     private $algorithm;
 
-    public function __construct(AlgorithmInterface $algorithm = null)
+    /**
+     * Constructor.
+     *
+     * @param AlgorithmInterface $algorithm
+     */
+    public function __construct(AlgorithmInterface $algorithm)
     {
-        if ($algorithm === null) {
-            $algorithm = new Myers();
-        }
-
         $this->algorithm = $algorithm;
     }
 
-    public function diffLines($old, $new)
+    /**
+     * Diff line by line.
+     *
+     * @param string $a
+     * @param string $b
+     *
+     * @return Diff
+     */
+    public function diffLines($a, $b)
     {
-        return $this->diff($old, $new, '/\R/');
+        return $this->diff($a, $b, '/\R/');
     }
 
-    public function diffWords($old, $new)
+    /**
+     * Diff word by word.
+     *
+     * @param string $a
+     * @param string $b
+     *
+     * @return Diff
+     */
+    public function diffWords($a, $b)
     {
-        return $this->diff($old, $new, '/\S+\s*/');
+        return $this->diff($a, $b, '/(\S+\s*)/', PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
     }
 
-    private function diff($old, $new, $splitRegex)
+    /**
+     * Get diff splitted by the provided regex.
+     *
+     * @param string $a
+     * @param string $b
+     * @param string $splitRegex
+     * @param int $flags
+     *
+     * @return Diff
+     */
+    private function diff($a, $b, $splitRegex, $flags = 0)
     {
-        $old = preg_split($splitRegex, $old);
-        $new = preg_split($splitRegex, $new);
-
         $diff = new Diff();
-        foreach ($this->algorithm->diff($old, $new) as $chunk) {
+
+        $chunks = $this->algorithm->diff(
+            preg_split($splitRegex, $a, -1, $flags),
+            preg_split($splitRegex, $b, -1, $flags)
+        );
+
+        foreach ($chunks as $chunk) {
             $diff->addChunk($chunk);
         }
 
