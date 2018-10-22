@@ -1,0 +1,24 @@
+{
+    "name": "goldcrest/diff",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oliver Finn Madsen",
+            "email": "mail@ofmadsen.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Goldcrest\\Diff\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "tests/"
+        }
+    }
+}
