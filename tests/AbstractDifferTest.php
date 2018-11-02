@@ -6,16 +6,14 @@ use Goldcrest\Diff\Algorithm\Myers;
 use Goldcrest\Diff\Chunk\AddedChunk;
 use Goldcrest\Diff\Chunk\RemovedChunk;
 use Goldcrest\Diff\Chunk\UnchangedChunk;
+use Goldcrest\Diff\Diff;
 use Goldcrest\Diff\Differ;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractDifferTest extends TestCase
 {
-    private $chunkMap = [
-        AddedChunk::class => '+',
-        RemovedChunk::class => '-',
-        UnchangedChunk::class => ' '
-    ];
+    abstract protected function getDataFolder();
+    abstract protected function diff(Differ $differ, $a, $b);
 
     private $differ;
 
@@ -36,12 +34,8 @@ abstract class AbstractDifferTest extends TestCase
 
         $diff = $this->diff($this->differ, $a, $b);
 
-        $result = [];
-        foreach ($diff as $index => $chunk) {
-            $result[] = $this->chunkMap[get_class($chunk)] . $chunk->getContent();
-        }
-
-        $this->assertSame($expected, $result);
+        $this->assertChangesCount($expected, $diff);
+        $this->assertDiffIsEqual($expected, $diff);
     }
 
     public function dataProvider()
@@ -60,6 +54,36 @@ abstract class AbstractDifferTest extends TestCase
         return $folders;
     }
 
-    abstract protected function getDataFolder();
-    abstract protected function diff(Differ $differ, $a, $b);
+    private function assertChangesCount(array $expected, Diff $diff)
+    {
+        $changes = [
+            '+' => 0,
+            '-' => 0,
+            ' ' => 0
+        ];
+
+        foreach ($expected as $line) {
+            $changes[substr($line, 0, 1)]++;
+        }
+
+        $this->assertSame($changes['+'], $diff->countAdded());
+        $this->assertSame($changes['-'], $diff->countRemoved());
+        $this->assertSame($changes[' '], $diff->countUnchanged());
+    }
+
+    private function assertDiffIsEqual(array $expected, Diff $diff)
+    {
+        $chunkMap = [
+            AddedChunk::class => '+',
+            RemovedChunk::class => '-',
+            UnchangedChunk::class => ' '
+        ];
+
+        $result = [];
+        foreach ($diff as $chunk) {
+            $result[] = $chunkMap[get_class($chunk)] . $chunk->getContent();
+        }
+
+        $this->assertSame($expected, $result);
+    }
 }

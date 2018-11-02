@@ -20,5 +20,9 @@
         "psr-4": {
             "Test\\": "tests/"
         }
+    },
+    "scripts": {
+        "test": "phpunit tests/",
+        "coverage": "phpunit tests/ --whitelist src/ --coverage-text"
     }
 }

@@ -72,7 +72,7 @@ class Myers implements AlgorithmInterface
                 }
             }
         }
-    }
+    } // @codeCoverageIgnore
 
     /**
      * Get array that can contain x, indexed by very possible k.
