@@ -5,37 +5,46 @@ use Goldcrest\Diff\Chunk\AddedChunk;
 use Goldcrest\Diff\Chunk\RemovedChunk;
 use Goldcrest\Diff\Chunk\UnchangedChunk;
 
+/**
+ * Implementation of the Myers diff algorithm without refinements.
+ *
+ * The algorithm is described in Eugene W. Myers' 1986 paper: "An O(ND) Difference Algorithm
+ * and Its Variations".
+ *
+ * @see http://www.xmailserver.org/diff2.pdf
+ * @see https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/
+ */
 class Myers implements AlgorithmInterface
 {
+    /**
+     * Diff method.
+     *
+     * @param string[] $a
+     * @param string[] $b
+     *
+     * @return \Goldcrest\Diff\Chunk\AbstractChunk[]
+     */
     public function diff(array $a, array $b)
     {
-        $shortestEdit = $this->getShortestEdit($a, $b);
-
-        $diff = [];
-        foreach ($this->backtrack($shortestEdit, $a, $b) as list($prevX, $prevY, $x, $y)) {
-            if ($x === $prevX) {
-                $diff[] = new AddedChunk($b[$prevY]);
-            } elseif ($y === $prevY) {
-                $diff[] = new RemovedChunk($a[$prevX]);
-            } else {
-                $diff[] = new UnchangedChunk($a[$prevX]);
-            }
-        }
-
-        return array_reverse($diff);
+        return $this->backtrack($this->getShortestPath($a, $b), $a, $b);
     }
 
-    private function getShortestEdit(array $a, array $b)
+    /**
+     * Get a trace of the shortest path in the graph, where we value deletions above insertions.
+     *
+     * @param string[] $a
+     * @param string[] $b
+     *
+     * @return int[][]
+     */
+    private function getShortestPath(array $a, array $b)
     {
         $n = count($a);
         $m = count($b);
 
         $max = $n + $m;
 
-        $keys = array_keys(array_flip(range($max * -1, $max)));
-        $values = array_fill(0, $max * 2 + 1, null);
-
-        $v = array_combine($keys, $values);
+        $v = $this->getInitialStepArray($max);
         $v[1] = 0;
 
         $trace = [];
@@ -65,12 +74,38 @@ class Myers implements AlgorithmInterface
         }
     }
 
-    private function backtrack(array $shortestEdit, array $a, array $b)
+    /**
+     * Get array that can contain x, indexed by very possible k.
+     *
+     * @param int $maxSteps
+     *
+     * @return int[]
+     */
+    private function getInitialStepArray($maxSteps)
     {
+        $keys = range($maxSteps * -1, $maxSteps);
+        $values = array_fill(0, $maxSteps * 2 + 1, null);
+
+        return array_combine($keys, $values);
+    }
+
+    /**
+     * Backtrack the path to create chunks of what has been added, removed and unchanged.
+     *
+     * @param int[][] $path
+     * @param string[] $a
+     * @param string[] $b
+     *
+     * @return \Goldcrest\Diff\Chunk\AbstractChunk[]
+     */
+    private function backtrack(array $path, array $a, array $b)
+    {
+        $chunks = [];
+
         $x = count($a);
         $y = count($b);
 
-        foreach (array_reverse($shortestEdit, true) as $d => $v) {
+        foreach (array_reverse($path, true) as $d => $v) {
             $k = $x - $y;
 
             if ($k === $d * -1 || ($k !== $d && $v[$k - 1] < $v[$k + 1])) {
@@ -83,18 +118,45 @@ class Myers implements AlgorithmInterface
             $prevY = $prevX - $prevK;
 
             while ($x > $prevX && $y > $prevY) {
-                yield [$x - 1, $y - 1, $x, $y];
+                $chunks[] = $this->createChunk($a, $b, $x - 1, $y - 1, $x, $y);
 
                 $x--;
                 $y--;
             }
 
             if ($d > 0) {
-                yield [$prevX, $prevY, $x, $y];
+                $chunks[] = $this->createChunk($a, $b, $prevX, $prevY, $x, $y);                
             }
 
             $x = $prevX;
             $y = $prevY;
         }
+
+        return array_reverse($chunks);
+    }
+
+    /**
+     * Create chunk with content from one of the arrays.
+     *
+     * @param string[] $a
+     * @param string[] $b
+     * @param int $prevX
+     * @param int $prevY
+     * @param int $x
+     * @param int $y
+     *
+     * @return \Goldcrest\Diff\Chunk\AbstractChunk
+     */
+    private function createChunk(array $a, array $b, $prevX, $prevY, $x, $y)
+    {
+        if ($x === $prevX) {
+            return new AddedChunk($b[$prevY]);
+        }
+
+        if ($y === $prevY) {
+            return new RemovedChunk($a[$prevX]);
+        }
+
+        return new UnchangedChunk($a[$prevX]);
     }
 }
