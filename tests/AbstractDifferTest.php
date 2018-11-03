@@ -2,12 +2,12 @@
 namespace Test;
 
 use DirectoryIterator;
-use Goldcrest\Diff\Algorithm\Myers;
-use Goldcrest\Diff\Chunk\AddedChunk;
-use Goldcrest\Diff\Chunk\RemovedChunk;
-use Goldcrest\Diff\Chunk\UnchangedChunk;
-use Goldcrest\Diff\Diff;
-use Goldcrest\Diff\Differ;
+use Madsen\Diff\Algorithm\Myers;
+use Madsen\Diff\Chunk\AddedChunk;
+use Madsen\Diff\Chunk\RemovedChunk;
+use Madsen\Diff\Chunk\UnchangedChunk;
+use Madsen\Diff\Diff;
+use Madsen\Diff\Differ;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractDifferTest extends TestCase

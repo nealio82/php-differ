@@ -1,11 +1,11 @@
 <?php
-namespace Goldcrest\Diff;
+namespace Madsen\Diff;
 
 use ArrayIterator;
-use Goldcrest\Diff\Chunk\AbstractChunk;
-use Goldcrest\Diff\Chunk\AddedChunk;
-use Goldcrest\Diff\Chunk\RemovedChunk;
-use Goldcrest\Diff\Chunk\UnchangedChunk;
+use Madsen\Diff\Chunk\AbstractChunk;
+use Madsen\Diff\Chunk\AddedChunk;
+use Madsen\Diff\Chunk\RemovedChunk;
+use Madsen\Diff\Chunk\UnchangedChunk;
 use IteratorAggregate;
 
 class Diff implements IteratorAggregate

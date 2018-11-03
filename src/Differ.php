@@ -1,7 +1,7 @@
 <?php
-namespace Goldcrest\Diff;
+namespace Madsen\Diff;
 
-use Goldcrest\Diff\Algorithm\AlgorithmInterface;
+use Madsen\Diff\Algorithm\AlgorithmInterface;
 
 class Differ
 {

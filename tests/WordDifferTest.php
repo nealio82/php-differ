@@ -1,7 +1,7 @@
 <?php
 namespace Test;
 
-use Goldcrest\Diff\Differ;
+use Madsen\Diff\Differ;
 
 class WordDifferTest extends AbstractDifferTest
 {

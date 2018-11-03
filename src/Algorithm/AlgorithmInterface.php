@@ -1,5 +1,5 @@
 <?php
-namespace Goldcrest\Diff\Algorithm;
+namespace Madsen\Diff\Algorithm;
 
 interface AlgorithmInterface
 {
@@ -12,7 +12,7 @@ interface AlgorithmInterface
      * @param string[] $a
      * @param string[] $b
      *
-     * @return \Goldcrest\Diff\Chunk\AbstractChunk[]
+     * @return \Madsen\Diff\Chunk\AbstractChunk[]
      */
     public function diff(array $a, array $b);
 }

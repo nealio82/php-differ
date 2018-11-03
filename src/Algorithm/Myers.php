@@ -1,9 +1,9 @@
 <?php
-namespace Goldcrest\Diff\Algorithm;
+namespace Madsen\Diff\Algorithm;
 
-use Goldcrest\Diff\Chunk\AddedChunk;
-use Goldcrest\Diff\Chunk\RemovedChunk;
-use Goldcrest\Diff\Chunk\UnchangedChunk;
+use Madsen\Diff\Chunk\AddedChunk;
+use Madsen\Diff\Chunk\RemovedChunk;
+use Madsen\Diff\Chunk\UnchangedChunk;
 
 /**
  * Implementation of the Myers diff algorithm without refinements.
@@ -22,7 +22,7 @@ class Myers implements AlgorithmInterface
      * @param string[] $a
      * @param string[] $b
      *
-     * @return \Goldcrest\Diff\Chunk\AbstractChunk[]
+     * @return \Madsen\Diff\Chunk\AbstractChunk[]
      */
     public function diff(array $a, array $b)
     {
@@ -96,7 +96,7 @@ class Myers implements AlgorithmInterface
      * @param string[] $a
      * @param string[] $b
      *
-     * @return \Goldcrest\Diff\Chunk\AbstractChunk[]
+     * @return \Madsen\Diff\Chunk\AbstractChunk[]
      */
     private function backtrack(array $path, array $a, array $b)
     {
@@ -145,7 +145,7 @@ class Myers implements AlgorithmInterface
      * @param int $x
      * @param int $y
      *
-     * @return \Goldcrest\Diff\Chunk\AbstractChunk
+     * @return \Madsen\Diff\Chunk\AbstractChunk
      */
     private function createChunk(array $a, array $b, $prevX, $prevY, $x, $y)
     {

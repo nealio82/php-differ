@@ -1,5 +1,5 @@
 {
-    "name": "goldcrest/diff",
+    "name": "ofmadsen/php-differ",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Goldcrest\\Diff\\": "src/"
+            "Madsen\\Diff\\": "src/"
         }
     },
     "autoload-dev": {

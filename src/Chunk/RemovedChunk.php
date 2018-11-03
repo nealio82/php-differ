@@ -1,5 +1,5 @@
 <?php
-namespace Goldcrest\Diff\Chunk;
+namespace Madsen\Diff\Chunk;
 
 class RemovedChunk extends AbstractChunk
 {
