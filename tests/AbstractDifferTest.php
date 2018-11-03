@@ -34,8 +34,8 @@ abstract class AbstractDifferTest extends TestCase
 
         $diff = $this->diff($this->differ, $a, $b);
 
-        $this->assertChangesCount($expected, $diff);
         $this->assertDiffIsEqual($expected, $diff);
+        $this->assertChangesCount($expected, $diff);
     }
 
     public function dataProvider()
