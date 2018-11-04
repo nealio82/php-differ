@@ -1,23 +1,24 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Test;
 
 use DirectoryIterator;
 use Madsen\Diff\Algorithm\Myers;
-use Madsen\Diff\Chunk\AddedChunk;
-use Madsen\Diff\Chunk\RemovedChunk;
-use Madsen\Diff\Chunk\UnchangedChunk;
+use Madsen\Diff\Chunk\{AddedChunk, RemovedChunk, UnchangedChunk};
 use Madsen\Diff\Diff;
 use Madsen\Diff\Differ;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractDifferTest extends TestCase
 {
-    abstract protected function getDataFolder();
-    abstract protected function diff(Differ $differ, $a, $b);
+    abstract protected function getDataFolder(): string;
+    abstract protected function diff(Differ $differ, string $a, string $b): Diff;
 
     private $differ;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->differ = new Differ(new Myers());
     }
@@ -25,7 +26,7 @@ abstract class AbstractDifferTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testDiff($folder)
+    public function testDiff(string $folder): void
     {
         $expected = explode("\n", file_get_contents("{$folder}/myers"));
 
@@ -38,7 +39,7 @@ abstract class AbstractDifferTest extends TestCase
         $this->assertChangesCount($expected, $diff);
     }
 
-    public function dataProvider()
+    public function dataProvider(): array
     {
         $folder = $this->getDataFolder();
 
@@ -54,7 +55,7 @@ abstract class AbstractDifferTest extends TestCase
         return $folders;
     }
 
-    private function assertChangesCount(array $expected, Diff $diff)
+    private function assertChangesCount(array $expected, Diff $diff): void
     {
         $changes = [
             '+' => 0,
@@ -71,7 +72,7 @@ abstract class AbstractDifferTest extends TestCase
         $this->assertSame($changes[' '], $diff->countUnchanged());
     }
 
-    private function assertDiffIsEqual(array $expected, Diff $diff)
+    private function assertDiffIsEqual(array $expected, Diff $diff): void
     {
         $chunkMap = [
             AddedChunk::class => '+',

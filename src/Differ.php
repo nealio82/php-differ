@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Madsen\Diff;
 
 use Madsen\Diff\Algorithm\AlgorithmInterface;
@@ -26,7 +29,7 @@ class Differ
      *
      * @return Diff
      */
-    public function diffLines($a, $b)
+    public function diffLines(string $a, string $b): Diff
     {
         return $this->diff($a, $b, '/\R/');
     }
@@ -39,7 +42,7 @@ class Differ
      *
      * @return Diff
      */
-    public function diffWords($a, $b)
+    public function diffWords(string $a, string $b): Diff
     {
         return $this->diff($a, $b, '/(\S+\s*)/', PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
     }
@@ -54,7 +57,7 @@ class Differ
      *
      * @return Diff
      */
-    private function diff($a, $b, $splitRegex, $flags = 0)
+    private function diff(string $a, string $b, string $splitRegex, int $flags = 0): Diff
     {
         $diff = new Diff();
 

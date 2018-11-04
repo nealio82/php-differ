@@ -1,9 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Madsen\Diff\Algorithm;
 
-use Madsen\Diff\Chunk\AddedChunk;
-use Madsen\Diff\Chunk\RemovedChunk;
-use Madsen\Diff\Chunk\UnchangedChunk;
+use Madsen\Diff\Chunk\{AbstractChunk, AddedChunk, RemovedChunk, UnchangedChunk};
 
 /**
  * Implementation of the Myers diff algorithm without refinements.
@@ -24,7 +25,7 @@ class Myers implements AlgorithmInterface
      *
      * @return \Madsen\Diff\Chunk\AbstractChunk[]
      */
-    public function diff(array $a, array $b)
+    public function diff(array $a, array $b): array
     {
         return $this->backtrack($this->getShortestPath($a, $b), $a, $b);
     }
@@ -37,7 +38,7 @@ class Myers implements AlgorithmInterface
      *
      * @return int[][]
      */
-    private function getShortestPath(array $a, array $b)
+    private function getShortestPath(array $a, array $b): array
     {
         $n = count($a);
         $m = count($b);
@@ -81,7 +82,7 @@ class Myers implements AlgorithmInterface
      *
      * @return int[]
      */
-    private function getInitialStepArray($maxSteps)
+    private function getInitialStepArray(int $maxSteps): array
     {
         $keys = range($maxSteps * -1, $maxSteps);
         $values = array_fill(0, $maxSteps * 2 + 1, null);
@@ -98,7 +99,7 @@ class Myers implements AlgorithmInterface
      *
      * @return \Madsen\Diff\Chunk\AbstractChunk[]
      */
-    private function backtrack(array $path, array $a, array $b)
+    private function backtrack(array $path, array $a, array $b): array
     {
         $chunks = [];
 
@@ -147,7 +148,7 @@ class Myers implements AlgorithmInterface
      *
      * @return \Madsen\Diff\Chunk\AbstractChunk
      */
-    private function createChunk(array $a, array $b, $prevX, $prevY, $x, $y)
+    private function createChunk(array $a, array $b, int $prevX, int $prevY, int $x, int $y): AbstractChunk
     {
         if ($x === $prevX) {
             return new AddedChunk($b[$prevY]);

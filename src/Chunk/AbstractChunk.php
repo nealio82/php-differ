@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Madsen\Diff\Chunk;
 
 abstract class AbstractChunk
@@ -11,7 +14,7 @@ abstract class AbstractChunk
      *
      * @param string $content
      */
-    public function __construct($content)
+    public function __construct(string $content)
     {
         $this->content = $content;
     }
@@ -21,7 +24,7 @@ abstract class AbstractChunk
      *
      * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }

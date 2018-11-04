@@ -1,16 +1,19 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Test;
 
-use Madsen\Diff\Differ;
+use Madsen\Diff\{Diff, Differ};
 
 class WordDifferTest extends AbstractDifferTest
 {
-    protected function getDataFolder()
+    protected function getDataFolder(): string
     {
         return 'word-data';
     }
-    // TODO Add test for adding/removing spacing between words...
-    protected function diff(Differ $differ, $a, $b)
+
+    protected function diff(Differ $differ, string $a, string $b): Diff
     {
         return $differ->diffWords($a, $b);
     }

@@ -1,11 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Madsen\Diff;
 
 use ArrayIterator;
-use Madsen\Diff\Chunk\AbstractChunk;
-use Madsen\Diff\Chunk\AddedChunk;
-use Madsen\Diff\Chunk\RemovedChunk;
-use Madsen\Diff\Chunk\UnchangedChunk;
+use Madsen\Diff\Chunk\{AbstractChunk, AddedChunk, RemovedChunk, UnchangedChunk};
 use IteratorAggregate;
 
 class Diff implements IteratorAggregate
@@ -18,7 +18,7 @@ class Diff implements IteratorAggregate
      *
      * @return ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->chunks);
     }
@@ -28,7 +28,7 @@ class Diff implements IteratorAggregate
      *
      * @param AbstractChunk $chunk
      */
-    public function addChunk(AbstractChunk $chunk)
+    public function addChunk(AbstractChunk $chunk): void
     {
         $this->chunks[] = $chunk;
     }
@@ -38,7 +38,7 @@ class Diff implements IteratorAggregate
      *
      * @return int
      */
-    public function countAdded()
+    public function countAdded(): int
     {
         return $this->countChunksByType(AddedChunk::class);
     }
@@ -48,7 +48,7 @@ class Diff implements IteratorAggregate
      *
      * @return int
      */
-    public function countRemoved()
+    public function countRemoved(): int
     {
         return $this->countChunksByType(RemovedChunk::class);
     }
@@ -58,7 +58,7 @@ class Diff implements IteratorAggregate
      *
      * @return int
      */
-    public function countUnchanged()
+    public function countUnchanged(): int
     {
         return $this->countChunksByType(UnchangedChunk::class);
     }
@@ -70,7 +70,7 @@ class Diff implements IteratorAggregate
      *
      * @return int
      */
-    private function countChunksByType($type)
+    private function countChunksByType(string $type): int
     {
         $count = 0;
         foreach ($this->chunks as $chunk) {

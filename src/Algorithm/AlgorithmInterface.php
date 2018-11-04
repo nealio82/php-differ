@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Madsen\Diff\Algorithm;
 
 interface AlgorithmInterface
@@ -14,5 +17,5 @@ interface AlgorithmInterface
      *
      * @return \Madsen\Diff\Chunk\AbstractChunk[]
      */
-    public function diff(array $a, array $b);
+    public function diff(array $a, array $b): array;
 }
