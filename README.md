@@ -1,5 +1,5 @@
 # PHP Differ
-Library for creating diff between two strings, lines or words. It was created as a learning experience for myself, but published as it may be usable to someone.
+Library for creating diff between two strings, lines or words. It was created as a learning experience for myself, and published as it may be usable for others.
 
 [![Build Status](https://travis-ci.org/ofmadsen/php-differ.svg?branch=master)](https://travis-ci.org/ofmadsen/php-differ)
 
