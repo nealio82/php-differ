@@ -1,6 +1,6 @@
 {
     "name": "ofmadsen/php-differ",
-    "description": "Create diff between two strings, lines or words",
+    "description": "Creates diff between two strings, lines or words",
     "type": "library",
     "keywords": [
         "diff"

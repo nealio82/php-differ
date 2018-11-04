@@ -1,7 +1,5 @@
 # PHP Differ
-Library for creating lines or words diff. Currently only [Myers' algorithm](http://www.xmailserver.org/diff2.pdf) has been implemented, but more can be added.
-
-This library was created as a learning experience for myself.
+Library for creating diff between two strings, lines or words. Currently only [Myers' algorithm](http://www.xmailserver.org/diff2.pdf) has been implemented, but more could be added. It was created as a learning experience for myself, but published as it may be usable to someone.
 
 [![Build Status](https://travis-ci.org/ofmadsen/php-differ.svg?branch=master)](https://travis-ci.org/ofmadsen/php-differ)
 
@@ -22,7 +20,8 @@ $diff = $differ->diffLines($a, $b); // Also support ::diffWords()
 
 // $diff is Madsen\Diff\Diff that can be iterated:
 foreach ($diff as $chunk) {
-    // $chunk is an object of Madsen\Diff\Chunk\AbstractChunk type
+    // $chunk is an object of Madsen\Diff\Chunk\AbstractChunk type; AddedChunk, RemovedChunk or UnchangedChunk
+    $content = $chunk->getContent();
 }
 
 $added = $diff->countAdded(); // Get the number of added chunks
