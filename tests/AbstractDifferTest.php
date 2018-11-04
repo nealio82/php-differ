@@ -63,6 +63,22 @@ abstract class AbstractDifferTest extends TestCase
         return $folders;
     }
 
+    private function assertDiffIsEqual(array $expected, Diff $diff): void
+    {
+        $chunkMap = [
+            AddedChunk::class => '+',
+            RemovedChunk::class => '-',
+            UnchangedChunk::class => ' '
+        ];
+
+        $result = [];
+        foreach ($diff as $chunk) {
+            $result[] = $chunkMap[get_class($chunk)] . $chunk->getContent();
+        }
+
+        $this->assertSame($expected, $result);
+    }
+
     private function assertChangesCount(array $expected, Diff $diff): void
     {
         $changes = [
@@ -78,21 +94,5 @@ abstract class AbstractDifferTest extends TestCase
         $this->assertSame($changes['+'], $diff->countAdded());
         $this->assertSame($changes['-'], $diff->countRemoved());
         $this->assertSame($changes[' '], $diff->countUnchanged());
-    }
-
-    private function assertDiffIsEqual(array $expected, Diff $diff): void
-    {
-        $chunkMap = [
-            AddedChunk::class => '+',
-            RemovedChunk::class => '-',
-            UnchangedChunk::class => ' '
-        ];
-
-        $result = [];
-        foreach ($diff as $chunk) {
-            $result[] = $chunkMap[get_class($chunk)] . $chunk->getContent();
-        }
-
-        $this->assertSame($expected, $result);
     }
 }

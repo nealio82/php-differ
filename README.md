@@ -12,7 +12,7 @@ $ composer require ofmadsen/php-differ
 
 ## Algorithms
 
-- `Madsen\Diff\Algorithm\Myers` from his 1986 [paper](http://www.xmailserver.org/diff2.pdf)
+- `Madsen\Diff\Algorithm\Myers`, described in Eugene W. Myers' 1986 [paper](http://www.xmailserver.org/diff2.pdf).
 
 ## Usage
 ```php
@@ -24,7 +24,7 @@ $diff = $differ->diffLines($a, $b); // Also support ::diffWords()
 
 // $diff is Madsen\Diff\Diff that can be iterated:
 foreach ($diff as $chunk) {
-    // $chunk is an object of Madsen\Diff\Chunk\AbstractChunk type; AddedChunk, RemovedChunk or UnchangedChunk
+    // $chunk is an Madsen\Diff\Chunk\AbstractChunk object; AddedChunk, RemovedChunk or UnchangedChunk
     $content = $chunk->getContent();
 }
 

@@ -84,7 +84,7 @@ class Myers implements AlgorithmInterface
     } // @codeCoverageIgnore
 
     /**
-     * Get array that can contain x, indexed by very possible k.
+     * Get an array that can contain x, indexed by every possible k.
      *
      * @param int $maxSteps
      *
@@ -99,7 +99,7 @@ class Myers implements AlgorithmInterface
     }
 
     /**
-     * Backtrack the path to create chunks of what has been added, removed and unchanged.
+     * Backtrack the path to create chunks of what is added, removed and unchanged.
      *
      * @param int[][] $path
      * @param string[] $a
@@ -145,7 +145,7 @@ class Myers implements AlgorithmInterface
     }
 
     /**
-     * Create chunk with content from one of the arrays.
+     * Create chunk with content from one of the input arrays.
      *
      * @param string[] $a
      * @param string[] $b
