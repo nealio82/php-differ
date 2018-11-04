@@ -1,0 +1,35 @@
+{
+    "name": "ofmadsen/php-differ",
+    "description": "Creates diff between two strings, lines or words",
+    "type": "library",
+    "keywords": [
+        "diff"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oliver Finn Madsen",
+            "email": "mail@ofmadsen.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.4.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Madsen\\Diff\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "tests/"
+        }
+    },
+    "scripts": {
+        "coverage": "phpunit tests/ --whitelist src/ --coverage-text",
+        "test": "phpunit tests/"
+    }
+}
