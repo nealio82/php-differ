@@ -37,7 +37,7 @@ class Differ
      *
      * @return Diff
      */
-    public function diffLines(string $a, string $b): Diff
+    public function diffLines(?string $a, ?string $b): Diff
     {
         return $this->diff($a, $b, '/\R/');
     }
@@ -65,14 +65,30 @@ class Differ
      *
      * @return Diff
      */
-    private function diff(string $a, string $b, string $splitRegex, int $flags = 0): Diff
+    private function diff(?string $a, ?string $b, string $splitRegex, int $flags = 0): Diff
     {
         $diff = new Diff();
 
-        $chunks = $this->algorithm->diff(
-            preg_split($splitRegex, $a, -1, $flags),
-            preg_split($splitRegex, $b, -1, $flags)
-        );
+        if(null === $a) {
+            $chunks = $this->algorithm->diff(
+                [],
+                preg_split($splitRegex, $b, -1, $flags)
+            );
+        }
+
+        if(null === $b) {
+            $chunks = $this->algorithm->diff(
+                preg_split($splitRegex, $a, -1, $flags),
+                []
+            );
+        }
+
+        if(null !== $a && null !== $b) {
+            $chunks = $this->algorithm->diff(
+                preg_split($splitRegex, $a, -1, $flags),
+                preg_split($splitRegex, $b, -1, $flags)
+            );
+        }
 
         foreach ($chunks as $chunk) {
             $diff->addChunk($chunk);
